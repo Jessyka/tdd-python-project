@@ -27,12 +27,14 @@ class Leilao:
 
     @property
     def lances(self):
-        return self.__lances
+        return self.__lances[:]
 
     def propor_lance(self, lance: Lance):
-        self.__lances.append(lance)
-        if lance.valor > self.maior_lance:
-            self.maior_lance = lance.valor
-        if lance.valor < self.menor_lance:
-            self.menor_lance = lance.valor
-
+        if self.__lances and (self.__lances[-1].usuario == lance.usuario or self.__lances[-1].valor >= lance.valor):
+            raise ValueError('Esse usuario acabou de propor um lance.')
+        else:
+            self.__lances.append(lance)
+            if lance.valor > self.maior_lance:
+                self.maior_lance = lance.valor
+            if lance.valor < self.menor_lance:
+                self.menor_lance = lance.valor
