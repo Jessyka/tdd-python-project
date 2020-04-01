@@ -17,8 +17,8 @@ class TestAvaliador(TestCase):
 
 
     def test_deve_retornar_maior_e_menor_valor_quando_adicionado_em_ordem_crescente(self):
-        self.leilao.lances.append(self.lance_do_pedro)
-        self.leilao.lances.append(self.lance_do_gui)
+        self.leilao.propor_lance(self.lance_do_pedro)
+        self.leilao.propor_lance(self.lance_do_gui)
 
         avaliador = Avaliador()
         avaliador.avalia(self.leilao)
@@ -27,8 +27,8 @@ class TestAvaliador(TestCase):
         self.assertEqual(150.00, avaliador.maior_lance)
 
     def test_deve_retornar_maior_e_menor_valor_quando_adicionado_em_ordem_decrescente(self):
-        self.leilao.lances.append(self.lance_do_pedro)
-        self.leilao.lances.append(self.lance_do_gui)
+        self.leilao.propor_lance(self.lance_do_pedro)
+        self.leilao.propor_lance(self.lance_do_gui)
 
         avaliador = Avaliador()
         avaliador.avalia(self.leilao)
@@ -37,7 +37,7 @@ class TestAvaliador(TestCase):
         self.assertEqual(150.00, avaliador.maior_lance)
 
     def test_deve_retornar_o_mesmo_valor_para_maior_e_menor_lance_quando_adicionado_apenas_um_lance(self):
-        self.leilao.lances.append(self.lance_do_gui)
+        self.leilao.propor_lance(self.lance_do_gui)
 
         avaliador = Avaliador()
         avaliador.avalia(self.leilao)
@@ -46,9 +46,9 @@ class TestAvaliador(TestCase):
         self.assertEqual(150.00, avaliador.maior_lance)
 
     def test_deve_retornar_maior_e_menor_valor_quando_tiver_mais_de_dois_lances(self):
-        self.leilao.lances.append(self.lance_do_pedro)
-        self.leilao.lances.append(self.lance_do_gui)
-        self.leilao.lances.append(self.lance_do_vini)
+        self.leilao.propor_lance(self.lance_do_pedro)
+        self.leilao.propor_lance(self.lance_do_gui)
+        self.leilao.propor_lance(self.lance_do_vini)
 
         avaliador = Avaliador()
         avaliador.avalia(self.leilao)
