@@ -1,9 +1,9 @@
 from unittest import TestCase
 
-from src.leilao.dominio import Usuario, Lance, Leilao, Avaliador
+from src.leilao.dominio import Usuario, Lance, Leilao
 
 
-class TestAvaliador(TestCase):
+class TestLeilao(TestCase):
     def setUp(self):
         self.primeiro_usuario = Usuario("Gui")
         self.segundo_usuario = Usuario("Pedro")
@@ -20,38 +20,26 @@ class TestAvaliador(TestCase):
         self.leilao.propor_lance(self.lance_do_pedro)
         self.leilao.propor_lance(self.lance_do_gui)
 
-        avaliador = Avaliador()
-        avaliador.avalia(self.leilao)
-
-        self.assertEqual(100.00, avaliador.menor_lance)
-        self.assertEqual(150.00, avaliador.maior_lance)
+        self.assertEqual(100.00, self.leilao.menor_lance)
+        self.assertEqual(150.00, self.leilao.maior_lance)
 
     def test_deve_retornar_maior_e_menor_valor_quando_adicionado_em_ordem_decrescente(self):
         self.leilao.propor_lance(self.lance_do_pedro)
         self.leilao.propor_lance(self.lance_do_gui)
 
-        avaliador = Avaliador()
-        avaliador.avalia(self.leilao)
-
-        self.assertEqual(100.00, avaliador.menor_lance)
-        self.assertEqual(150.00, avaliador.maior_lance)
+        self.assertEqual(100.00, self.leilao.menor_lance)
+        self.assertEqual(150.00, self.leilao.maior_lance)
 
     def test_deve_retornar_o_mesmo_valor_para_maior_e_menor_lance_quando_adicionado_apenas_um_lance(self):
         self.leilao.propor_lance(self.lance_do_gui)
 
-        avaliador = Avaliador()
-        avaliador.avalia(self.leilao)
-
-        self.assertEqual(150.00, avaliador.menor_lance)
-        self.assertEqual(150.00, avaliador.maior_lance)
+        self.assertEqual(150.00, self.leilao.menor_lance)
+        self.assertEqual(150.00, self.leilao.maior_lance)
 
     def test_deve_retornar_maior_e_menor_valor_quando_tiver_mais_de_dois_lances(self):
         self.leilao.propor_lance(self.lance_do_pedro)
         self.leilao.propor_lance(self.lance_do_gui)
         self.leilao.propor_lance(self.lance_do_vini)
 
-        avaliador = Avaliador()
-        avaliador.avalia(self.leilao)
-
-        self.assertEqual(80.00, avaliador.menor_lance)
-        self.assertEqual(150.00, avaliador.maior_lance)
+        self.assertEqual(80.00, self.leilao.menor_lance)
+        self.assertEqual(150.00, self.leilao.maior_lance)
