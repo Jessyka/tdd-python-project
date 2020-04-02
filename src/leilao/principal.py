@@ -1,4 +1,4 @@
-from src.leilao.dominio import Usuario, Lance, Leilao
+from src import Usuario, Lance, Leilao
 
 primeiro_usuario = Usuario("Gui")
 segundo_usuario = Usuario("Pedro")
