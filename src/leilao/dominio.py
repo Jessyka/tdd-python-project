@@ -1,4 +1,4 @@
-import sys
+from src.leilao.exception import LanceInvalido
 
 class Usuario:
 
@@ -16,7 +16,7 @@ class Usuario:
 
     def propor_lance(self, leilao, valor):
         if self.__carteira < valor:
-            raise ValueError('Valor maior que o valor da carteira.')
+            raise LanceInvalido('Valor maior que o valor da carteira.')
         leilao.propor_lance(Lance(self, valor))
         self.__carteira -= valor
 
@@ -33,17 +33,15 @@ class Leilao:
     def __init__(self, descricao):
         self.descricao = descricao
         self.__lances = []
-        self.maior_lance = sys.float_info.min
-        self.menor_lance = sys.float_info.max
+        self.maior_lance = 0.0
+        self.menor_lance = 0.0
 
     @property
     def lances(self):
         return self.__lances[:]
 
     def propor_lance(self, lance: Lance):
-        if self._tem_lances() and self._lance_invalido(lance):
-            raise ValueError('Esse usuario acabou de propor um lance.')
-        else:
+        if self._lance_valido(lance):
             if not self._tem_lances():
                 self.menor_lance = lance.valor
 
@@ -54,11 +52,15 @@ class Leilao:
     def _tem_lances(self):
         return self.__lances
 
-    def _lance_invalido(self, lance):
-        return self._usuario_invalido(lance) or self._valor_invalido(lance)
+    def _lance_valido(self, lance):
+        return self._usuario_valido(lance) and self._valor_valido(lance)
 
-    def _usuario_invalido(self, lance):
-        return self.__lances[-1].usuario == lance.usuario
+    def _usuario_valido(self, lance):
+        if not self._tem_lances() or self.__lances[-1].usuario != lance.usuario:
+            return True
+        raise LanceInvalido('Usuario invalido para propor lance.')
 
-    def _valor_invalido(self, lance):
-        return self.__lances[-1].valor >= lance.valor
+    def _valor_valido(self, lance):
+        if not self._tem_lances() or self.__lances[-1].valor < lance.valor:
+            return True
+        raise LanceInvalido('Valor invalido.')

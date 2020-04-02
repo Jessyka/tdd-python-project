@@ -1,4 +1,5 @@
 from src.leilao.dominio import Usuario, Leilao
+from src.leilao.exception import LanceInvalido
 import pytest
 
 @pytest.fixture
@@ -18,7 +19,7 @@ def test_deve_subtrair_valor_da_carteira_quando_propor_lance_com_mesmo_valor_da_
     assert gui.carteira == 0
 
 def test_deve_lancar_excecao_quando_valor_da_carteira_for_menor_que_lance(gui):
-    with pytest.raises(ValueError):
+    with pytest.raises(LanceInvalido):
         leilao = Leilao('Celular')
 
         gui.propor_lance(leilao, 200.00)
