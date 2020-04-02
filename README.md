@@ -5,6 +5,6 @@ Projeto desenvolvido durante curso de TDD para python
 
 In the project directory, you can run:
 
-### `python -m unittest src/leilao/test_dominio.py`
+### `pytest`
 
 Launches the test runner.

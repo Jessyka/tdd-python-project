@@ -41,11 +41,24 @@ class Leilao:
         return self.__lances[:]
 
     def propor_lance(self, lance: Lance):
-        if self.__lances and (self.__lances[-1].usuario == lance.usuario or self.__lances[-1].valor >= lance.valor):
+        if self._tem_lances() and self._lance_invalido(lance):
             raise ValueError('Esse usuario acabou de propor um lance.')
         else:
-            self.__lances.append(lance)
-            if lance.valor > self.maior_lance:
-                self.maior_lance = lance.valor
-            if lance.valor < self.menor_lance:
+            if not self._tem_lances():
                 self.menor_lance = lance.valor
+
+            self.maior_lance = lance.valor
+
+            self.__lances.append(lance)
+
+    def _tem_lances(self):
+        return self.__lances
+
+    def _lance_invalido(self, lance):
+        return self._usuario_invalido(lance) or self._valor_invalido(lance)
+
+    def _usuario_invalido(self, lance):
+        return self.__lances[-1].usuario == lance.usuario
+
+    def _valor_invalido(self, lance):
+        return self.__lances[-1].valor >= lance.valor
